@@ -1,5 +1,5 @@
 name: Minecraft 26.1.2 Build
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
