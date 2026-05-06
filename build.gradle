@@ -1,9 +1,8 @@
-pluginManagement {
-    repositories {
-        maven { url = "https://maven.fabricmc.net/" } // Eklentiyi buradan bulacak
-        gradlePluginPortal()
-    }
+plugins {
+    id 'fabric-loom' version '1.9-SNAPSHOT'
 }
+
+// Geri kalan kodlar (repositories, dependencies vs.) aynen kalsın...
 
 plugins {
     id 'fabric-loom' version '1.9-SNAPSHOT'
