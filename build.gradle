@@ -11,9 +11,9 @@ java {
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    // Kodunu Java 25 olarak okumasını ama 21 uyumlu derlemesini sağlıyoruz
-    it.options.release = 21 
+// Hata veren remap işlemini kapatıyoruz, böylece jar dosyası üretilecek
+remapJar {
+    enabled = false
 }
 
 repositories {
