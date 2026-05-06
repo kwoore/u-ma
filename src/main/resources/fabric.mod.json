@@ -1,0 +1,16 @@
+{
+	"schemaVersion": 1,
+	"id": "untitled4",
+	"version": "26.1.2",
+	"name": "Kedi Mod",
+	"entrypoints": {
+		"client": [
+			"com.kedihilesi.untitled4.client.Untitled4Client"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.16.0",
+		"minecraft": "1.21.4",
+		"java": ">=21"
+	}
+}
