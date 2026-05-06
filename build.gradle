@@ -1,52 +1,27 @@
 plugins {
-	id 'fabric-loom' version '1.9.2' // Snapshot yerine tam sürüm daha stabildir
+    id 'fabric-loom' version '1.9-SNAPSHOT' // Versiyonu 1.9-SNAPSHOT yapmak daha garantidir
+    id 'maven-publish'
 }
 
 version = "1.0.0"
-group = "com.example"
+group = "com.kwoore.uma"
+
+repositories {
+    maven { url = "https://maven.fabricmc.net/" } // Fabric dosyaları burada
+    mavenCentral()
+}
 
 dependencies {
-	minecraft "com.mojang:minecraft:1.21.4"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:0.16.9"
-
-	// 1.21.4 için doğru API sürümü
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
-}
-
-loom {
-	splitEnvironmentSourceSets()
-	mods {
-		"untitled4" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
-}
-
-// BU BLOĞU EKLE: Client'ın kütüphaneleri görmesini sağlar
-sourceSets {
-	client {
-		compileClasspath += main.compileClasspath
-		runtimeClasspath += main.runtimeClasspath
-	}
-}
-
-java {
-	toolchain.languageVersion = JavaLanguageVersion.of(21)
-}
-
-tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+    minecraft "com.mojang:minecraft:1.21.4" // 26.1.2 aslında 1.21.4'e tekabül eder
+    mappings "net.fabricmc:yarn:1.21.4+build.1:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.16.9"
 }
 
 processResources {
-	inputs.property "version", project.version
+    inputs.property "version", project.version
+    filteringCharset = "UTF-8"
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
-
-	// Bu satır IntelliJ'in dosya çakışması uyarısını bastırabilir
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
 }
