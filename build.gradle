@@ -2,18 +2,18 @@ plugins {
     id 'fabric-loom' version '1.9.2'
 }
 
-version = "1.0.0"
+version = "26.1.2" 
 group = "com.kedihilesi.untitled4"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
-// Hata veren remap işlemini kapatıyoruz, böylece jar dosyası üretilecek
+// Gerçek bir mod dosyası (remapping) için bunu true yapmalıyız
 remapJar {
-    enabled = false
+    enabled = true 
 }
 
 repositories {
@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+    // Burası teknik kütüphane kısmı, burayı 1.21.4 bırakmalısın yoksa hata verir
     minecraft "com.mojang:minecraft:1.21.4"
     mappings "net.fabricmc:yarn:1.21.4+build.1:v2"
     modImplementation "net.fabricmc:fabric-loader:0.16.9"
