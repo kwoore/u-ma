@@ -1,9 +1,22 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'fabric-loom' version '1.9.2'
 }
 
 version = "1.0.0"
-group = "com.kwoore.uma"
+group = "com.kedihilesi.untitled4"
+
+// Derleyiciye Java 25 kullanmasını açıkça söyleyelim
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+java {
+    // Java 25 zorunluluğunu buraya ekledik
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+    withSourcesJar()
+}
 
 repositories {
     maven { url = "https://maven.fabricmc.net/" }
