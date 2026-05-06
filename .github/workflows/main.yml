@@ -1,6 +1,10 @@
 name: Minecraft 26.1.2 Build
 on: [push, pull_request, workflow_dispatch]
 
+# Node.js uyarısını kapatmak ve en güncel sürümü kullanmak için
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,4 +28,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Untitled4-Mod-26.1.2
-          path: build/libs/*.jar
+          # remapJar kapalı olduğu için dosya devlibs klasörüne düşüyor
+          path: build/devlibs/*.jar
