@@ -1,5 +1,14 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT' // En güncel sürümü dene
+    id 'fabric-loom' version '1.9-SNAPSHOT' // 1.7 veya 1.8 yerine 1.9-SNAPSHOT dene
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(25)
+    targetCompatibility = JavaVersion.toVersion(25)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
 }
 
 version = "26.1.2" 
@@ -7,7 +16,7 @@ group = "com.kedihilesi.untitled4"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
