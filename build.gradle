@@ -15,15 +15,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
-// Kaynak dosyalarının yerini garantiye alalım
-sourceSets {
-    main {
-        resources {
-            srcDirs = ['src/main/resources']
-        }
-    }
-}
-
 dependencies {
     minecraft "com.mojang:minecraft:1.21.4"
     mappings loom.officialMojangMappings()
@@ -33,13 +24,19 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+    
+    // Çakışma stratejisini ekleyelim
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-// Boş jar oluşmasını engellemek için jar görevini zorlayalım
 jar {
+    // Burada da çakışma olursa hata verme, dahil et diyoruz
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    
     from("src/main/resources") {
         include "fabric.mod.json"
         include "assets/**"
