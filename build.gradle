@@ -1,46 +1,28 @@
 plugins {
+    // Java 25 (version 69) desteği için 1.9 veya daha yeni bir sürüm şart
     id 'fabric-loom' version '1.9-SNAPSHOT' 
-    id 'maven-publish'
 }
 
-version = "26.1.2" 
+version = "26.1.2"
 group = "com.kedihilesi.untitled4"
 
-// Java 25 Yapılandırması
 java {
+    // Java 25'i hem toolchain hem de uyumluluk olarak zorla
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
     }
-    // Sınıf dosyası uyumluluğunu 25 (version 69) olarak zorla
     sourceCompatibility = JavaVersion.VERSION_25
     targetCompatibility = JavaVersion.VERSION_25
 }
 
-repositories {
-    maven { url = "https://maven.fabricmc.net/" }
-    mavenCentral()
-}
-
 dependencies {
-    // 26.1.2 Tiny Takeover ve Java 25 uyumlu bağımlılıklar
-    minecraft "com.mojang:minecraft:26.1.2" 
-    mappings loom.officialMojangMappings() 
+    minecraft "com.mojang:minecraft:26.1.2"
+    mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:0.16.10"
-    
-    // API sürümü çakışmasını önlemek için 1.21.4 API'si bu sürümle en yakın olandır
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
 }
 
 tasks.withType(JavaCompile).configureEach {
-    // GitHub'da "major version 69" hatasını bu satır çözer
-    it.options.release = 25 
-}
-
-processResources {
-    inputs.property "version", project.version
-    filteringCharset "UTF-8"
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
+    // GitHub derlemesinde "major version 69" hatasını bu satır susturur
+    it.options.release = 25
 }
