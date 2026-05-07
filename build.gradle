@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'fabric-loom' version '1.15' // 26.1 için gereken güncel sürüm
     id 'maven-publish'
 }
 
@@ -11,34 +11,23 @@ base {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    // 26.1+ sürümleri için minimum Java 25 gerekiyor
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.21.4"
+    // 26.1.2 resmi kütüphaneleri
+    minecraft "com.mojang:minecraft:26.1.2" 
     mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:0.16.9"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
+    modImplementation "net.fabricmc:fabric-loader:0.18.4" // Güncel loader
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+26.1.2"
 }
 
 processResources {
     inputs.property "version", project.version
-    
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
-    
-    // Çakışma stratejisini ekleyelim
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-jar {
-    // Burada da çakışma olursa hata verme, dahil et diyoruz
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    
-    from("src/main/resources") {
-        include "fabric.mod.json"
-        include "assets/**"
-    }
 }
