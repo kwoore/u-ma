@@ -1,9 +1,16 @@
 plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT' // 1.10 yerine 1.8 çok daha stabildir
+    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = '1.0.0'
+group = 'com.kedihilesi'
+
+base {
+    archivesName = "u-ma"
 }
 
 java {
-    // Java 25 yerine 21 kullanıyoruz, Major Version 65 olur ve hata vermez
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
@@ -13,8 +20,28 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.21.4" // Eğer 26.1.2 hata verirse bunu dene
+    minecraft "com.mojang:minecraft:1.21.4"
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:0.16.9"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
+}
+
+processResources {
+    inputs.property "version", project.version
+    
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+// Bu kısım boş jar sorununu çözer
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}
+
+// Fabric'in dosyayı gerçek bir moda dönüştürmesini sağlar
+loom {
+    accessWidenerPath = null 
 }
