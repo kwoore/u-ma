@@ -28,14 +28,14 @@ public class Untitled4Client implements ClientModInitializer {
                 if (velocity.y < -0.5 && isNearGround) {
                     
                     Abilities abilities = client.player.getAbilities();
-                    abilities.mayfly = true; // Uçma izni ver (26.1.2 mapping)
+                    abilities.mayfly = true; // 26.1.2 Mapping: Uçma izni
                     abilities.flying = true; // Uçuşu başlat
 
-                    // Sunucuya yeteneklerin güncellendiğini bildir
+                    // Sunucuya yeteneklerin güncellendiğini bildir (Yeni sürümlerde metod ismi kontrolü)
                     client.player.onUpdateAbilities();
 
-                    // Düşüşü durdur: Sadece Y eksenini (dikey) sıfırla, X ve Z (yatay) kalsın
-                    client.player.setDeltaMovement(velocity.x, 0.0, velocity.z);
+                    // 26.1.2 Fix: setDeltaMovement artık yeni bir Vec3 objesi bekler
+                    client.player.setDeltaMovement(new Vec3(velocity.x, 0.0, velocity.z));
                 }
             }
         });
