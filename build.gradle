@@ -1,4 +1,4 @@
-pplugins {
+plugins {
     // 1.9-SNAPSHOT veya en az 1.8 sürümü Java 25 (ASM 9.7) desteği sunar
     id 'fabric-loom' version '1.9-SNAPSHOT' 
 }
