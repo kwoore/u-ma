@@ -1,21 +1,37 @@
-{
-  "schemaVersion": 1,
-  "id": "untitled4",
-  "version": "1.0.0",
-  "name": "Untitled 4",
-  "description": "Kedi Hilesi Modu",
-  "authors": ["Kwoore"],
-  "contact": {},
-  "license": "MIT",
-  "icon": "assets/untitled4/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": ["com.kedihilesi.untitled4.Untitled4"],
-    "client": ["com.kedihilesi.untitled4.client.Untitled4Client"]
-  },
-  "depends": {
-    "fabricloader": ">=0.16.0",
-    "minecraft": "~1.21.1",
-    "java": ">=21"
-  }
-}
+name: Kedi Mod Build (Final)
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Java 21: Minecraft 1.21+ sürümleri için en kararlı sürüm
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+          cache: 'gradle'
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      # İzin hatasını (Permission Denied) çözer
+      - name: Make Gradle Executable
+        run: chmod +x gradlew
+
+      # Modu derler
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      # ZIP olarak indirmene izin veren kısım
+      - name: Upload Mod Jar
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: KediMod-Bitmis-Hal
+          # Sadece oyunun kabul edeceği asıl jar dosyasını alır
+          path: build/libs/!(*-sources|*-dev).jar
