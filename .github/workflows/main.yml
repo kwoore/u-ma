@@ -1,4 +1,4 @@
-name: Kedi Mod Build
+name: Kedi Mod Build (Full Content Fix)
 on: [push, pull_request]
 
 jobs:
@@ -17,12 +17,14 @@ jobs:
       - name: Make Gradle Executable
         run: chmod +x gradlew
 
+      # 'build' yerine 'remapJar' kullanarak her şeyin paketlendiğinden emin oluyoruz
       - name: Build with Gradle
-        run: ./gradlew build --no-daemon
+        run: ./gradlew remapJar --no-daemon
 
       - name: Upload Mod Jar
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: KediMod-Indir
+          name: KediMod-Gercek-Dosya
+          # remapJar komutu dosyayı genellikle bu isimle üretir
           path: build/libs/*.jar
