@@ -1,6 +1,5 @@
 plugins {
-    // Java 25 (version 69) desteği için 1.9 veya daha yeni bir sürüm şart
-    id 'fabric-loom' version '1.9-SNAPSHOT' 
+    id 'fabric-loom' version '1.10-SNAPSHOT' // 1.9 yerine 1.10 denemelisin
 }
 
 version = "26.1.2"
