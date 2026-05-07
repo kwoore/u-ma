@@ -1,6 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.15' // 26.1 için gereken güncel sürüm
-    id 'maven-publish'
+    id 'fabric-loom' version '1.15.5'
 }
 
 version = '1.0.0'
