@@ -1,4 +1,4 @@
-name: Kedi Mod Build (Java 25)
+name: Kedi Mod Build (Java 25 Fix)
 on: [push, pull_request]
 
 jobs:
@@ -8,25 +8,29 @@ jobs:
       - name: Repository Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java 25 (Temurin)
+      # Gradle'ın kendisinin çalışması için Java 21 (Hata almaz)
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      # Modun derlenmesi için Java 25 (Gerekli olan)
+      - name: Setup Java 25
         uses: actions/setup-java@v4
         with:
           java-version: '25'
-          distribution: 'temurin' # Java 25 için en güncel ve kararlı dağıtımdır.
-          cache: 'gradle' # Bu ayar sayesinde kütüphane hataları azalır.
+          distribution: 'temurin'
 
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v3
 
-      - name: Make Gradle Executable
-        run: chmod +x gradlew
-
       - name: Build with Gradle
-        # --no-daemon ve --stacktrace hataları ayıklamak ve temiz kurulum için kritiktir.
-        run: ./gradlew build --no-daemon --stacktrace
+        # JAVA_HOME_25_X64 değişkeni setup-java tarafından otomatik oluşturulur
+        run: ./gradlew build --no-daemon -Dorg.gradle.java.home="${{ env.JAVA_HOME_25_X64 }}"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: KediMod-26.1.2
+          name: KediMod-Output
           path: build/libs/*.jar
