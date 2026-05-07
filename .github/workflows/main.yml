@@ -1,4 +1,4 @@
-name: Kedi Mod Build (Final)
+name: Kedi Mod Build (Path Fix)
 on: [push, pull_request]
 
 jobs:
@@ -8,30 +8,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Java 21: Minecraft 1.21+ sürümleri için en kararlı sürüm
       - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
-          cache: 'gradle'
 
-      - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v3
-
-      # İzin hatasını (Permission Denied) çözer
       - name: Make Gradle Executable
         run: chmod +x gradlew
 
-      # Modu derler
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
 
-      # ZIP olarak indirmene izin veren kısım
       - name: Upload Mod Jar
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: KediMod-Bitmis-Hal
-          # Sadece oyunun kabul edeceği asıl jar dosyasını alır
-          path: build/libs/!(*-sources|*-dev).jar
+          name: KediMod-Dosyalari
+          # Karmaşık kuralı kaldırdık, klasördeki tüm jar'ları al diyoruz
+          path: build/libs/*.jar
