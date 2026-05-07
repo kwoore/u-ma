@@ -1,4 +1,4 @@
-name: Kedi Mod Build (Java 25 Fix)
+name: Kedi Mod Build (Java 25 & Permission Fix)
 on: [push, pull_request]
 
 jobs:
@@ -8,14 +8,14 @@ jobs:
       - name: Repository Checkout
         uses: actions/checkout@v4
 
-      # Gradle'ın kendisinin çalışması için Java 21 (Hata almaz)
+      # Gradle'ın ve Loom'un ana motoru için Java 21 (Hata almayı önler)
       - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      # Modun derlenmesi için Java 25 (Gerekli olan)
+      # Modun derlenmesi için gerekli olan Java 25
       - name: Setup Java 25
         uses: actions/setup-java@v4
         with:
@@ -25,12 +25,16 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v3
 
+      # İzin hatasını (Permission Denied) çözen kritik adım
+      - name: Make Gradle Executable
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        # JAVA_HOME_25_X64 değişkeni setup-java tarafından otomatik oluşturulur
+        # Gradle Java 21 ile çalışır ama kodu Java 25 ile paketler
         run: ./gradlew build --no-daemon -Dorg.gradle.java.home="${{ env.JAVA_HOME_25_X64 }}"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: KediMod-Output
+          name: KediMod-26.1.2-Final
           path: build/libs/*.jar
