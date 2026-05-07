@@ -15,8 +15,13 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
-tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+// Kaynak dosyalarının yerini garantiye alalım
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
 }
 
 dependencies {
@@ -28,20 +33,15 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
-    
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
 }
 
-// Bu kısım boş jar sorununu çözer
+// Boş jar oluşmasını engellemek için jar görevini zorlayalım
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
+    from("src/main/resources") {
+        include "fabric.mod.json"
+        include "assets/**"
     }
-}
-
-// Fabric'in dosyayı gerçek bir moda dönüştürmesini sağlar
-loom {
-    accessWidenerPath = null 
 }
