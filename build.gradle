@@ -25,3 +25,7 @@ tasks.withType(JavaCompile).configureEach {
     options.release.set(25)
     options.compilerArgs << "-Xlint:-options" // Sürüm uyarılarını kapatmak için
 }
+loom {
+    // Client ve Server jar dosyalarını birleştirmeyi kapat
+    splitEnvironmentSourceSets()
+}
