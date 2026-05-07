@@ -1,16 +1,21 @@
 {
   "schemaVersion": 1,
   "id": "untitled4",
-  "version": "26.1.2",
-  "name": "Kedi Mod",
+  "version": "1.0.0",
+  "name": "Untitled 4",
+  "description": "Kedi Hilesi Modu",
+  "authors": ["Kwoore"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/untitled4/icon.png",
+  "environment": "*",
   "entrypoints": {
-    "client": [
-      "com.kedihilesi.untitled4.client.Untitled4Client"
-    ]
+    "main": ["com.kedihilesi.untitled4.Untitled4"],
+    "client": ["com.kedihilesi.untitled4.client.Untitled4Client"]
   },
   "depends": {
     "fabricloader": ">=0.16.0",
-    "minecraft": "*",
-    "fabric-api": "*"
+    "minecraft": "~1.21.1",
+    "java": ">=21"
   }
 }
