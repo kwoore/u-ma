@@ -1,31 +1,20 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT' // 1.9 yerine 1.10 denemelisin
+    id 'fabric-loom' version '1.8-SNAPSHOT' // 1.10 yerine 1.8 çok daha stabildir
 }
-
-version = "26.1.2"
-group = "com.kedihilesi.untitled4"
 
 java {
-    // Java 25'i hem toolchain hem de uyumluluk olarak zorla
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:26.1.2"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:0.16.10"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
+    // Java 25 yerine 21 kullanıyoruz, Major Version 65 olur ve hata vermez
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.release.set(25)
-    options.compilerArgs << "-Xlint:-options" // Sürüm uyarılarını kapatmak için
+    it.options.release = 21
 }
-loom {
-    // Client ve Server jar dosyalarını birleştirmeyi kapat
-    splitEnvironmentSourceSets()
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21.4" // Eğer 26.1.2 hata verirse bunu dene
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:0.16.9"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
 }
