@@ -1,18 +1,32 @@
+name: Kedi Mod Build (Java 25)
+on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Repository Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Java 25
+      - name: Setup Java 25 (Temurin)
         uses: actions/setup-java@v4
         with:
           java-version: '25'
-          distribution: 'microsoft' # Microsoft Build of OpenJDK 25
+          distribution: 'temurin' # Java 25 için en güncel ve kararlı dağıtımdır.
+          cache: 'gradle' # Bu ayar sayesinde kütüphane hataları azalır.
 
       - name: Validate Gradle Wrapper
         uses: gradle/actions/wrapper-validation@v3
 
+      - name: Make Gradle Executable
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        # --no-daemon ve --stacktrace hataları ayıklamak ve temiz kurulum için kritiktir.
+        run: ./gradlew build --no-daemon --stacktrace
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: KediMod-26.1.2
+          path: build/libs/*.jar
