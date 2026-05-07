@@ -22,8 +22,14 @@ repositories {
 }
 
 dependencies {
-    // Burası teknik kütüphane kısmı, burayı 1.21.4 bırakmalısın yoksa hata verir
-    minecraft "com.mojang:minecraft:1.21.4"
-    mappings "net.fabricmc:yarn:1.21.4+build.1:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.16.9"
+    // 26.1.2 sürümü için resmi kütüphaneler
+    minecraft "com.mojang:minecraft:26.1.2" 
+    mappings loom.officialMojangMappings() 
+    modImplementation "net.fabricmc:fabric-loader:0.16.10"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.110.0+1.21.4"
+}
+
+// Java 25 Derleme Ayarı
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25 
 }
